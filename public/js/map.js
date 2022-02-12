@@ -24,6 +24,7 @@ async function getStores() {
       },
       properties: {
         storeId: store.storeId,
+        storeName: store.storeName,
         icon: 'shop'
       }
     };
@@ -48,7 +49,7 @@ function loadMap(stores) {
       layout: {
         'icon-image': '{icon}-15',
         'icon-size': 1.5,
-        'text-field': '{storeId}',
+        'text-field': '{storeId}{storeName}',
         'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
         'text-offset': [0, 0.9],
         'text-anchor': 'top'
@@ -56,5 +57,30 @@ function loadMap(stores) {
     });
   });
 }
+
+
+
+
+
+
+
+var x = document.getElementById("demo");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = "Latitude: " + position.coords.latitude + 
+  "<br>Longitude: " + position.coords.longitude;
+}
+
+
+
+
 
 getStores();
