@@ -39,6 +39,18 @@ const StoreSchema = new mongoose.Schema({
 
 // Geocode & create location
 StoreSchema.pre('save', async function(next) {
+  var crd;
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+      x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+  }
+  
+  function showPosition(position) {
+     crd = position.coords;
+  }
   getLocation();
   const loc = await geocoder.geocode(this.address);
   this.location = {
@@ -53,16 +65,6 @@ StoreSchema.pre('save', async function(next) {
 });
 
 
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else { 
-    x.innerHTML = "Geolocation is not supported by this browser.";
-  }
-}
 
-function showPosition(position) {
-  var crd = position.coords;
-}
 
 module.exports = mongoose.model('Store', StoreSchema);
